@@ -9,12 +9,15 @@ namespace Webhelp.Rh.Data.Configuration
         {
             HasKey(k => new { k.VacancyId, k.TechnologyId });
 
+            Property(vc => vc.Linguee)
+                .HasColumnType("decimal");
+
             HasRequired(vt => vt.Vacancy)
-                .WithMany()
+                .WithMany(t => t.Technologies)
                 .HasForeignKey(vt => vt.VacancyId);
 
             HasRequired(vt => vt.Technology)
-                .WithMany()
+                .WithMany(t => t.Vacancies)
                 .HasForeignKey(vt => vt.TechnologyId);
         }
     }

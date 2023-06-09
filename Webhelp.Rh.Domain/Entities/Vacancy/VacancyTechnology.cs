@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Webhelp.Rh.Domain.Entities.Vacancy
 {
@@ -13,6 +14,11 @@ namespace Webhelp.Rh.Domain.Entities.Vacancy
         public VacancyTechnology()
         {
             
+        }
+
+        public VacancyTechnology(Technology.Technology technology)
+        {
+            Technology = technology;
         }
     }
 }

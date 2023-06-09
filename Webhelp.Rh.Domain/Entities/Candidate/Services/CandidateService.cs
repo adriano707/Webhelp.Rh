@@ -22,6 +22,7 @@ namespace Webhelp.Rh.Domain.Entities.Candidate.Services
             var candidate = _repository.Query<Candidate>()
                 .Include(c => c.Technologies.Select(t => t.Technology))
                 .FirstOrDefault(c => c.Id == id);
+
             return candidate;
         }
 
@@ -31,20 +32,18 @@ namespace Webhelp.Rh.Domain.Entities.Candidate.Services
             return candidate;
         }
 
-        public async Task<Candidate> Update(Guid id, string name, string email, string phone, Guid[] technologies)
+        public async Task<Candidate> Update(Guid id, string name, string email, string phone, Guid[] technologyIds)
         {
             var candidate = _repository.Query<Candidate>().FirstOrDefault(c => c.Id == id);
+
+            var technologies = await GetTechnologiesByIds(technologyIds);
 
             if (candidate == null)
             {
                 throw new Exception("Candidato não encontrado");
             }
 
-            var listTechnologies = _repository.Query<Technology.Technology>()
-                .Where(t => technologies.Contains(t.Id))
-                .ToList();
-
-            var candidatesTechnologies = listTechnologies.Select(t => new CandidateTechnology(t)).ToList();
+            var candidatesTechnologies = technologies.Select(t => new CandidateTechnology(t)).ToList();
 
             candidate.Update(name, email, phone, candidatesTechnologies);
 
@@ -67,13 +66,11 @@ namespace Webhelp.Rh.Domain.Entities.Candidate.Services
             await _repository.SaveChangeAsync();
         }
 
-        public async Task<Candidate> Create(string name, string email, string phone, Guid[] technologies)
+        public async Task<Candidate> Create(string name, string email, string phone, Guid[] technologyIds)
         {
-            var listTechnologies = _repository.Query<Technology.Technology>()
-                .Where(t => technologies.Contains(t.Id))
-                .ToList();
+            var technologies = await GetTechnologiesByIds(technologyIds);
 
-            List<CandidateTechnology> candidateTechnologies = listTechnologies.Select(t => new CandidateTechnology(t)).ToList();
+            List<CandidateTechnology> candidateTechnologies = technologies.Select(t => new CandidateTechnology(t)).ToList();
 
             Candidate candidate = new Candidate(name, email, phone, candidateTechnologies);
 
@@ -81,6 +78,15 @@ namespace Webhelp.Rh.Domain.Entities.Candidate.Services
             await _repository.SaveChangeAsync();
 
             return candidate;
+        }
+
+        private async Task<List<Technology.Technology>> GetTechnologiesByIds(Guid[] technologyIds)
+        {
+            var technologies = _repository.Query<Technology.Technology>()
+                .Where(t => technologyIds.Contains(t.Id))
+                .ToList();
+
+            return technologies;
         }
     }
 }

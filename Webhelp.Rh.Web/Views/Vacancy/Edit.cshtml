@@ -8,11 +8,17 @@
 {
 	<h2>Criar Vaga</h2>
 
-	<div class="form-group">
-		<label for="Name">Nome da Vaga</label>
-		@Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
-		@Html.ValidationMessageFor(model => model.Name)
-	</div>
+    <div class="form-group">
+        <label for="Name">Nome da Vaga</label>
+        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+
+    <div class="form-group row">
+        <label for="Technologies">Tecnologias</label>
+        @Html.ListBoxFor(model => model.Technologies, (MultiSelectList)ViewBag.listTechnologies, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Technologies)
+    </div>
 
 	<div class="form-group">
 		<input type="submit" value="Salvar" class="btn btn-primary pt-2" />

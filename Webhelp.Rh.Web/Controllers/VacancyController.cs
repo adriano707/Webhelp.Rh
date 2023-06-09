@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Webhelp.Rh.Domain.Entities.Candidate;
+using Webhelp.Rh.Domain.Entities.Candidate.Services;
 using Webhelp.Rh.Domain.Entities.Vacancy.Services;
 using Webhelp.Rh.Web.ViewModel;
 
@@ -9,10 +12,12 @@ namespace Webhelp.Rh.Web.Controllers
     public class VacancyController : Controller
     {
         private readonly IVacancyService _vacancyService;
+        private readonly ITechnologyService _technologyService;
 
-        public VacancyController(IVacancyService vacancyService)
+        public VacancyController(IVacancyService vacancyService, ITechnologyService technologyService)
         {
             _vacancyService = vacancyService;
+            _technologyService = technologyService;
         }
 
         // GET: Vacancy
@@ -43,7 +48,7 @@ namespace Webhelp.Rh.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _vacancyService.Create(vacancy.Name);
+                await _vacancyService.Create(vacancy.Name, vacancy.Technologies);
 
                 return RedirectToAction("Index");
             }
@@ -56,6 +61,8 @@ namespace Webhelp.Rh.Web.Controllers
         {
             var create = new VacancyViewModel();
 
+            await CreateTechnologiesListBox();
+
             return View(create);
         }
 
@@ -64,7 +71,7 @@ namespace Webhelp.Rh.Web.Controllers
         {
             try
             {
-                await _vacancyService.Update(vacancy.Id, vacancy.Name);
+                await _vacancyService.Update(vacancy.Id, vacancy.Name, vacancy.Technologies);
 
                 return RedirectToAction("Index");
             }
@@ -79,13 +86,18 @@ namespace Webhelp.Rh.Web.Controllers
         {
             var vacancy = await _vacancyService.GetById(id);
 
+            var technologies = vacancy.Technologies?.Select(t => t.TechnologyId).ToArray();
+
             if (vacancy != null)
             {
                 var model = new VacancyViewModel()
                 {
                     Id = vacancy.Id,
                     Name = vacancy.Name,
+                    Technologies = technologies
                 };
+
+                await CreateTechnologiesListBox();
 
                 return View(model);
             }
@@ -106,6 +118,13 @@ namespace Webhelp.Rh.Web.Controllers
             {
                 return View("Error");
             }
+        }
+
+        private async Task CreateTechnologiesListBox()
+        {
+            var technologies = await _technologyService.GetAll();
+
+            ViewBag.listTechnologies = new MultiSelectList(technologies, "Id", "Name");
         }
     }
 }
