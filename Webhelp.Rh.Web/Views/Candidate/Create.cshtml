@@ -1,0 +1,49 @@
+﻿@model Webhelp.Rh.Web.ViewModel.CandidateViewModel
+
+@{
+	ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm("Create", "Candidate", FormMethod.Post))
+{
+	@Html.AntiForgeryToken()
+
+	<h2>Criar Candidato</h2>
+
+	<div class="form-group row">
+		<label for="Name" class="col-3">Nome do Candidato</label>
+		@Html.TextBoxFor(model => model.Name, new { @class = "form-control col-9" })
+		@Html.ValidationMessageFor(model => model.Name)
+	</div>
+
+	<div class="form-group row">
+		<label for="Email" class="col-3">Endereço de Email</label>
+		@Html.TextBoxFor(model => model.Email, new { @class = "form-control col-9" })
+		@Html.ValidationMessageFor(model => model.Email)
+	</div>
+
+	<div class="form-group row">
+		<label for="Phone" class="col-3">Número de Telefone</label>
+		@Html.TextBoxFor(model => model.Phone, new { @class = "form-control col-9" })
+		@Html.ValidationMessageFor(model => model.Phone)
+	</div>
+
+	<div class="form-group row">
+		<label for="Technologies">Tecnologias</label>
+        @Html.ListBoxFor(model => model.Technologies, (MultiSelectList)ViewBag.listTechnologies, new { @class = "form-control" })
+		@Html.ValidationMessageFor(model => model.Technologies)
+	</div>
+
+    <div class="form-group row pt-2">
+        <input type="submit" value="Salvar" class="btn btn-primary " />
+        <div>
+            @Html.ActionLink("Voltar para a Listagem", "Index", "Candidate", null, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+    
+}
+
+
+
+
+

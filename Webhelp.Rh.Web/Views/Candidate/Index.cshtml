@@ -1,0 +1,72 @@
+﻿@model List<Webhelp.Rh.Domain.Entities.Candidate.Candidate>
+
+@{
+	ViewBag.Title = "Index";
+}
+
+<h2>Lista de Candidatos</h2>
+
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Código</th>
+			<th>Nome</th>
+			<th>Email</th>
+			<th>Telefone</th>
+			<th>Ações</th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model != null && Model.Any())
+		{
+			foreach (var candidates in Model)
+			{
+				<tr>
+					<td>@candidates.Id</td>
+					<td>@candidates.Name</td>
+					<td>@candidates.Email</td>
+					<td>@candidates.Phone</td>
+					<td>
+						@Html.ActionLink("Edit", "Edit", "Candidate", new { candidates.Id }, new { @class = "btn btn-primary" })
+						<a href="#" class="btn btn-danger" onclick="deleteCandidate('@candidates.Id')">Delete</a>
+					</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="5">Nenhum candidato encontrado</td>
+			</tr>
+		}
+
+	</tbody>
+
+</table>
+
+<div class="float-left">
+	@Html.ActionLink("Cadastrar Candidato", "Create", "Candidate", null, new { @class = "btn btn-primary" })
+</div>
+
+@section Scripts{
+    <script>
+	var deleteCandidate = function (idCandidate) {
+		if (confirm("Deseja excluir essa vaga?")) {
+			$.ajax({
+				url: '@Url.Action("Delete", "Candidate")',
+				type: 'POST',
+				data: { id: idCandidate },
+				success: function (res) {
+					location.reload();
+				},
+				error: function (xhr, status, error) {
+					console.log(xhr.responseText);
+				}
+			})
+		}
+	}
+	</script>
+}
+
+
+

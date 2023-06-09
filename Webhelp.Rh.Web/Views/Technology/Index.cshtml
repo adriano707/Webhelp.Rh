@@ -1,0 +1,64 @@
+﻿@model List<Webhelp.Rh.Domain.Entities.Technology.Technology>
+
+@{
+	ViewBag.Title = "Technology";
+}
+
+<h2>Lista de Tecnologias</h2>
+
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Código</th>
+			<th>Nome</th>
+			<th>Ações</th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model != null && Model.Any())
+		{
+			foreach (var technology in Model)
+			{
+				<tr>
+					<td>@technology.Id</td>
+					<td>@technology.Name</td>
+					<td>
+						@Html.ActionLink("Edit", "Edit", "Technology", new { technology.Id }, new { @class = "btn btn-primary" })
+						<a href="#" class="btn btn-danger" onclick="deleteTechnology('@technology.Id')">Delete</a>
+					</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="3">Nenhuma tecnologia encontrada</td>
+			</tr>
+		}
+
+	</tbody>
+</table>
+
+<div class="float-left">
+	@Html.ActionLink("Cadastrar Tecnologia", "Create", "Technology", null, new { @class = "btn btn-primary" })
+</div>
+
+@section Scripts{
+    <script>
+	var deleteTechnology = function (idTechnology) {
+		if (confirm("Deseja excluir essa vaga?")) {
+			$.ajax({
+				url: '@Url.Action("Delete", "Technology")',
+				type: 'POST',
+				data: { id: idTechnology },
+				success: function (res) {
+					location.reload();
+				},
+				error: function (xhr, status, error) {
+					console.log(xhr.responseText);
+				}
+			})
+		}
+	}
+	</script>
+}

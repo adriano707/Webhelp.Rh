@@ -1,0 +1,64 @@
+﻿@model List<Webhelp.Rh.Domain.Entities.Vacancy.Vacancy>
+
+@{
+	ViewBag.Title = "Index";
+}
+
+<h2>Lista de Vagas</h2>
+
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Código</th>
+			<th>Nome</th>
+			<th>Ações</th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model != null && Model.Any())
+		{
+			foreach (var vacancy in Model)
+			{
+				<tr>
+					<td>@vacancy.Id</td>
+					<td>@vacancy.Name</td>
+					<td>
+						@Html.ActionLink("Edit", "Edit", "Vacancy", new { vacancy.Id }, new { @class = "btn btn-primary" })
+						<a href="#" class="btn btn-danger" onclick="deleteVacancy('@vacancy.Id')">Delete</a>
+					</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="3">Nenhuma vaga encontrada</td>
+			</tr>
+		}
+
+	</tbody>
+</table>
+
+<div class="float-left">
+	@Html.ActionLink("Cadastrar Vaga", "Create", "Vacancy", null, new { @class = "btn btn-primary" })
+</div>
+
+@section Scripts{
+	<script>
+	var deleteVacancy = function (idVacancy) {
+		if (confirm("Deseja excluir essa vaga?")) {
+			$.ajax({
+				url: '@Url.Action("Delete", "Vacancy")',
+				type: 'POST',
+				data: { id:idVacancy },
+				success: function (res) {
+					location.reload();
+				},
+				error: function (xhr, status, error) {
+					console.log(xhr.responseText);
+				}
+			})
+		}
+	}
+	</script>
+}

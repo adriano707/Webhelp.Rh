@@ -1,0 +1,23 @@
+﻿@model Webhelp.Rh.Web.ViewModel.TechnologyViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+@using (@Html.BeginForm("Edit", "Technology", FormMethod.Post))
+{
+    <h2>Editar Tecnologia</h2>
+
+    <div class="form-group">
+        <label for="Name">Nome da Tecnologia</label>
+        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Salvar" class="btn btn-primary pt-2" />
+        <div>
+            @Html.ActionLink("Voltar para a Listagem", "Index", "Technology", null, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+}
