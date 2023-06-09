@@ -10,34 +10,38 @@
 
     <h2>Editar Candidato</h2>
 
-    <div class="form-group">
+    <div class="form-group ">
         <label for="Name">Nome do Candidato</label>
         @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.Name)
     </div>
 
-    <div class="form-group">
+    <div class="form-group ">
         <label for="Email">Endereço de Email</label>
         @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.Email)
     </div>
 
-    <div class="form-group">
+    <div class="form-group ">
         <label for="Phone">Número de Telefone</label>
         @Html.TextBoxFor(model => model.Phone, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.Phone)
     </div>
-    <div class="form-group row">
+    <div class="form-group ">
         <label for="Technologies">Tecnologias</label>
         @Html.ListBoxFor(model => model.Technologies, (MultiSelectList)ViewBag.listTechnologies, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.Technologies)
     </div>
 
-    <div class="form-group">
-        <input type="submit" value="Salvar" class="btn btn-primary pt-2" />
-        <div>
-            @Html.ActionLink("Voltar para a Listagem", "Index", "Candidate", null, new { @class = "btn btn-primary" })
-        </div>
-    </div>
+	<div class="form-group pt-2 float-left">
+		<div class="col btn-group text-left">
+			<input type="submit" value="Salvar" class="btn btn-primary rounded" />
+			<div>
+				@Html.ActionLink("Voltar para a Listagem", "Index", "Candidate", null, new { @class = "btn btn-primary rounded" })
+			</div>
+		</div>
+	</div>
 }
+
+
 

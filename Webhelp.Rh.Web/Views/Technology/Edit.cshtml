@@ -14,10 +14,12 @@
         @Html.ValidationMessageFor(model => model.Name)
     </div>
 
-    <div class="form-group">
-        <input type="submit" value="Salvar" class="btn btn-primary pt-2" />
-        <div>
-            @Html.ActionLink("Voltar para a Listagem", "Index", "Technology", null, new { @class = "btn btn-primary" })
+    <div class="pt-2 float-left">
+        <div class="col btn-group text-left">
+            <input type="submit" value="Salvar" class="btn btn-primary rounded" />
+            <div>
+                @Html.ActionLink("Voltar para a Listagem", "Index", "Technology", null, new { @class = "btn btn-primary rounded ml-2" })
+            </div>
         </div>
     </div>
 }

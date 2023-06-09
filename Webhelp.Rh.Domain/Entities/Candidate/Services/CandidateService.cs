@@ -82,11 +82,16 @@ namespace Webhelp.Rh.Domain.Entities.Candidate.Services
 
         private async Task<List<Technology.Technology>> GetTechnologiesByIds(Guid[] technologyIds)
         {
-            var technologies = _repository.Query<Technology.Technology>()
+            if (technologyIds != null)
+            {
+                var technologies = _repository.Query<Technology.Technology>()
                 .Where(t => technologyIds.Contains(t.Id))
                 .ToList();
 
             return technologies;
+            }
+
+            return new List<Technology.Technology>();
         }
     }
 }

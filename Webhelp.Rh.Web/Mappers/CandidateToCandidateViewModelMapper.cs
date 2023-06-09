@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using AutoMapper;
-using AutoMapper.Configuration;
+﻿using AutoMapper;
 using Webhelp.Rh.Domain.Entities.Candidate;
 using Webhelp.Rh.Web.ViewModel;
 

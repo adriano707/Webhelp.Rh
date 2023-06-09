@@ -14,17 +14,21 @@
         @Html.ValidationMessageFor(model => model.Name)
     </div>
 
-    <div class="form-group row">
+    <div class="form-group">
         <label for="Technologies">Tecnologias</label>
         @Html.ListBoxFor(model => model.Technologies, (MultiSelectList)ViewBag.listTechnologies, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.Technologies)
     </div>
 
-	<div class="form-group">
-		<input type="submit" value="Salvar" class="btn btn-primary pt-2" />
-		<div>
-			@Html.ActionLink("Voltar para a Listagem", "Index", "Vacancy", null, new { @class = "btn btn-primary" })
-		</div>
-	</div>
+    <div class="pt-2 float-left">
+        <div class="col btn-group text-left">
+            <input type="submit" value="Salvar" class="btn btn-primary rounded" />
+            <div>
+                @Html.ActionLink("Voltar para a Listagem", "Index", "Vacancy", null, new { @class = "btn btn-primary rounded" })
+            </div>
+        </div>
+    </div>
 }
+
+
 
